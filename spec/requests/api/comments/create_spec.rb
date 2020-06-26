@@ -45,6 +45,7 @@ RSpec.describe 'POST /api/comment, user can comment on an article' do
     describe ':body' do
       before do
         post '/api/comments',
+        headers: headers,
         params: { article: article.id }
       end
 
@@ -57,10 +58,11 @@ RSpec.describe 'POST /api/comment, user can comment on an article' do
       end
     end
 
-    describe ':body' do
+    describe ':article' do
       before do
         post '/api/comments',
-        params: { article: article.id }
+        headers: headers,
+        params: { body: "Message body hehe" }
       end
 
       it 'has a 422 response' do
@@ -68,7 +70,7 @@ RSpec.describe 'POST /api/comment, user can comment on an article' do
       end
   
       it 'has an error message' do
-        expect(response_json['message']).to eq "Unable to find article with an ID"
+        expect(response_json['message']).to eq "Couldn't find Article without an ID"
       end
     end
   end
